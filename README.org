@@ -36,7 +36,10 @@ The result would look like this:
 #+CAPTION: Browser Integration setting for the entry
 [[./screenshots/shot-2022-08-05-at-20-42-12-area--2Cwl40JHAHKtzHIWfYFEX4Zz3Lp.png]]
 
-More details about this approach can be found in [[https://github.com/keepassxreboot/keepassxc/pull/3558][PR #3558]].
+More details about this approach can be found in:
+
+- https://github.com/keepassxreboot/keepassxc/pull/3558
+- https://github.com/keepassxreboot/keepassxc/issues/6691
 
 *** TOTP
 Optionally =totp= seeds can be stored in separate database, as recommended by [[https://keepassxc.org/docs/#faq-security-totp][KeePassXC FAQ]] page.
@@ -54,9 +57,10 @@ So the idea here is to separate =totp= code from the =password= by not holding e
 
 This setup also supported by KeePassXC browser extension, when =username= and =password= would be auto-filled from one database, and =totp= code from another.
 
-For more details see [[https://github.com/keepassxreboot/keepassxc-browser/issues/1162][issue #1162]] and [[https://github.com/keepassxreboot/keepassxc-browser/pull/1173][PR #1173]].
+For more details see:
 
-Additionally =login= items
+- https://github.com/keepassxreboot/keepassxc-browser/issues/1162
+- https://github.com/keepassxreboot/keepassxc-browser/pull/1173
 
 ** Cards
 KeePassXC currently does not support credit cards entries, in a way Bitwarden does, so we need to come up with alternative method to store them conveniently.

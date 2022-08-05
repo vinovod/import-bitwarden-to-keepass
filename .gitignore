@@ -1,0 +1,5 @@
+exports/
+*.csv
+*.json
+*.kdbx
+__pycache__/

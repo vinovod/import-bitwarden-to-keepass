@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  bitwarden-to-keepass:
+    build: .
+    command: >
+      bash -c 'export BW_SESSION=`$BW_PATH login --raw || $BW_PATH unlock --raw`
+      && $BW_PATH sync
+      && python3 bitwarden2keepass.py
+      && $BW_PATH lock'
+    volumes:
+      - ./exports:/exports
+      - "bw-config:/root/.config/Bitwarden CLI"
+    env_file:
+      - .env
+
+volumes:
+  bw-config:

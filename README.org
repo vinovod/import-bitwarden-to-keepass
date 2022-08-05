@@ -1,0 +1,105 @@
+* bitwarden2keepass
+Export all your Bitwarden items into KeePass database.
+
+* How it works?
+It uses official [[https://bitwarden.com/help/article/cli/][bitwarden-cli]] to export all of your items from Bitwarden vault and move them into KeePass database - that includes:
+
+- Logins (with TOTP seeds, URIs, custom fields, notes and attachments)
+- Cards
+- Identities
+- Secure notes
+
+** Logins
+
+*** Multiple =uri=
+If your items have more than one =uri= for them, they will be converted to KeePassXC supported format following this steps:
+
+1. First =uri= from the list would be used for default =url= field used by KeePassXC (appears in main UI).
+2. Remaining =uri='s would be saved as =Advanced attributes= with =KP2AURL= prefix.
+
+Here's an example:
+
+Suppose you have these =uri='s set for you ProtonMail account in Bitwarden:
+
+- =https://protonmail.com=
+- =https://protonvpn.com=
+- =https://proton.me=
+
+The result would look like this:
+
+#+CAPTION: Entry's default =url= shown in preview pane
+[[./screenshots/shot-2022-08-05-at-20-30-31-area--2CwjdtN5n1axVft1LJLOsXN2veq.png]]
+
+#+CAPTION: Advanced attributes containing multiple =uri=
+[[./screenshots/shot-2022-08-05-at-20-31-41-area--2CwjmfD781Kbz89JycJiKpCXBuc.png]]
+
+#+CAPTION: Browser Integration setting for the entry
+[[./screenshots/shot-2022-08-05-at-20-42-12-area--2Cwl40JHAHKtzHIWfYFEX4Zz3Lp.png]]
+
+More details about this approach can be found in [[https://github.com/keepassxreboot/keepassxc/pull/3558][PR #3558]].
+
+*** TOTP
+Optionally =totp= seeds can be stored in separate database, as recommended by [[https://keepassxc.org/docs/#faq-security-totp][KeePassXC FAQ]] page.
+
+If =TOTP_DB_PATH= session variable or =--totp-db-path= flag is set, exported results would have these properties:
+
+1. =exports/password.kdbx= file entries would contain everything, except:
+   - =Notes= field (often holds recovery codes)
+   - =TOTP Seed= field
+   - =TOTP Settings= field
+   - Bitwarden's custom fields that match =(phrase|code|2fa|totp|recovery|secret|security|passw)= regex (case insensitive).
+2. =exports/totp.kdbx= file would contain everything mentioned above and =username= (there is no =password= here).
+
+So the idea here is to separate =totp= code from the =password= by not holding everything in one basket.
+
+This setup also supported by KeePassXC browser extension, when =username= and =password= would be auto-filled from one database, and =totp= code from another.
+
+For more details see [[https://github.com/keepassxreboot/keepassxc-browser/issues/1162][issue #1162]] and [[https://github.com/keepassxreboot/keepassxc-browser/pull/1173][PR #1173]].
+
+Additionally =login= items
+
+** Cards
+KeePassXC currently does not support credit cards entries, in a way Bitwarden does, so we need to come up with alternative method to store them conveniently.
+
+By convenience i mean being able to quickly access credit card information without digging through tabs, and still being able to use default keybindings for copying =username= / =password= fields. The same way you accessing login entries right now.
+
+- Card number stored as =username= field
+- CVV code stored as =password= field
+- Expiry date stored as =url= field
+- Entry =expiration= attribute would be set to card expiry date, so you can quickly identify expiring/expired cards using KeePassXC default mechanism
+- Card's custom fields would be saved as =Advanced attributes=
+
+Official support is =WIP=:
+
+- https://github.com/keepassxreboot/keepassxc/issues/8228
+- https://github.com/keepassxreboot/keepassxc-browser/pull/1614
+
+* Usage
+
+** Docker (recommended)
+
+** Nix
+
+#+begin_src shell
+cd ./bitwarden2keepass
+nix-shell
+#+end_src
+
+** Others
+
+#+begin_src shell
+cd ./bitwarden2keepass
+
+python3 bitwarden-to-keepass.py \
+    --bw-session BW_SESSION \
+    --db-path DATABASE_PATH \
+    --db-password DATABASE_PASSWORD \
+    [--db-keyfile DATABASE_KEYFILE] \
+    [--totp-db-path DATABASE_PATH] \
+    [--totp-db-password DATABASE_PASSWORD] \
+    [--totp-db-keyfile DATABASE_KEYFILE] \
+    [--bw-path BW_PATH]
+#+end_src
+
+* Acknowledgment
+=bitwarden2keepass= is a highly opinionated version of [[https://github.com/davidnemec][@davidnemec]]'s original [[https://github.com/davidnemec/bitwarden-to-keepass][bitwarden-to-keepass]] script.

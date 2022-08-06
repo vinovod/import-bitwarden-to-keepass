@@ -82,9 +82,18 @@ Official support is =WIP=:
 
 1. =git clone https://github.com/andreystepanov/import-bitwarden-to-keepass=
 2. =cd ./import-bitwarden-to-keepass=
-3. To execute script use one of the methods described below.
+3. Edit =.env= file (change default passwords)
+4. To execute script use one of the methods described below.
+
+After the process is finished your KeePass database can be found in =./exports= directory.
 
 ** Docker (recommended)
+
+#+begin_src shell
+docker-compose run import-bitwarden-to-keepass
+#+end_src
+
+- You will be interactively asked to login with [[https://bitwarden.com/help/article/cli/][bitwarden-cli]]
 
 ** Nix / NixOS
 

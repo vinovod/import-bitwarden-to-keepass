@@ -1,5 +1,5 @@
-* bitwarden2keepass
-Export all your Bitwarden items into KeePass database.
+* import-bitwarden-to-keepass
+Import all your Bitwarden items into KeePass database.
 
 * How it works?
 It uses official [[https://bitwarden.com/help/article/cli/][bitwarden-cli]] to export all of your items from Bitwarden vault and move them into KeePass database - that includes:
@@ -80,21 +80,45 @@ Official support is =WIP=:
 
 * Usage
 
+1. Clone =import-bitwarden-to-keepass= repository by running:
+   #+begin_src shell
+   git clone https://github.com/andreystepanov/import-bitwarden-to-keepass
+   #+end_src
+2. =cd= into =import-bitwarden-to-keepass= directory
+   #+begin_src shell
+cd ./import-bitwarden-to-keepass
+   #+end_src
+3. To execute script use one of the methods described below.
+
 ** Docker (recommended)
 
-** Nix
+** Nix / NixOS
+
+If you are on NixOS or just using =nix= as your package manager, then you can just run =nix-shell= command.
 
 #+begin_src shell
-cd ./bitwarden2keepass
 nix-shell
+#+end_src
+
+The output would be similar to:
+
+#+begin_src shell
+You are already logged in as user@example.com.
+? Master password: [hidden]
+Syncing...
+Syncing complete.
+2022-08-06 09:42:24 :: INFO :: KeePass db does not exist, creating a new one.
+2022-08-06 09:42:26 :: INFO :: Folders done (10).
+2022-08-06 09:42:29 :: INFO :: Starting to process 999 items.
+2022-08-06 09:42:40 :: INFO :: Saving changes to KeePass db.
+2022-08-06 09:42:40 :: INFO :: Export completed.
+Your vault is locked.
 #+end_src
 
 ** Others
 
 #+begin_src shell
-cd ./bitwarden2keepass
-
-python3 bitwarden-to-keepass.py \
+python3 import-bitwarden-to-keepass.py \
     --bw-session BW_SESSION \
     --db-path DATABASE_PATH \
     --db-password DATABASE_PASSWORD \
@@ -106,4 +130,4 @@ python3 bitwarden-to-keepass.py \
 #+end_src
 
 * Acknowledgment
-=bitwarden2keepass= is a highly opinionated version of [[https://github.com/davidnemec][@davidnemec]]'s original [[https://github.com/davidnemec/bitwarden-to-keepass][bitwarden-to-keepass]] script.
+=import-bitwarden-to-keepass= is a highly modified and opinionated version of [[https://github.com/davidnemec][@davidnemec]]'s original [[https://github.com/davidnemec/bitwarden-to-keepass][bitwarden-to-keepass]] script.

@@ -69,13 +69,10 @@ let
 in pkgs.mkShell {
   buildInputs = [ pp ];
   shellHook = ''
+    set -e
+
+    export $(grep -v '^#' .env | xargs)
     export BW_PATH="${pkgs.bitwarden-cli}/bin/bw"
-
-    export DB_PASSWORD=CHANGE_ME
-    export DB_PATH=./exports/passwords.kdbx
-
-    export TOTP_DB_PASSWORD=CHANGE_ME
-    export TOTP_DB_PATH=./exports/totp.kdbx
 
     if [[ -f $DB_PATH ]]
     then
@@ -91,10 +88,12 @@ in pkgs.mkShell {
 
     if [[ -n $BW_SESSION ]]
     then
-      python bitwarden2keepass.py
-    else
-      exit
+      echo "Syncing..."
+      $BW_PATH sync
+      python import-bitwarden-to-keepass.py
+      $BW_PATH lock
     fi
 
+    exit
   '';
 }

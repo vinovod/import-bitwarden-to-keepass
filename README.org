@@ -85,11 +85,13 @@ Official support is =WIP=:
    #+begin_src shell
    git clone https://github.com/andreystepanov/import-bitwarden-to-keepass
    #+end_src
+
 2. =cd= into =import-bitwarden-to-keepass= directory
 
    #+begin_src shell
    cd ./import-bitwarden-to-keepass
    #+end_src
+
 3. To execute script use one of the methods described below.
 
 ** Docker (recommended)

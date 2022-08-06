@@ -50,7 +50,7 @@ If =TOTP_DB_PATH= session variable or =--totp-db-path= flag is set, exported res
    - =Notes= field (often holds recovery codes)
    - =TOTP Seed= field
    - =TOTP Settings= field
-   - Bitwarden's custom fields that match =(phrase|code|2fa|totp|recovery|secret|security|passw)= regex (case insensitive).
+   - Bitwarden's custom fields that match =(phrase|backup|code|2fa|totp|recovery|secret|security|passw)= regex (case insensitive).
 2. =exports/totp.kdbx= file would contain everything mentioned above and =username= (there is no =password= here).
 
 So the idea here is to separate =totp= code from the =password= by not holding everything in one basket.

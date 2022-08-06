@@ -162,7 +162,7 @@ class Item:
             is_sensitive = (
                 bool(
                     re.search(
-                        r"(phrase|code|2fa|totp|recovery|secret|security|passw)",
+                        r"(phrase|backup|code|2fa|totp|recovery|secret|security|passw)",
                         name,
                         re.IGNORECASE,
                     )

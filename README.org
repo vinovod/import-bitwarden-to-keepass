@@ -81,13 +81,17 @@ Official support is =WIP=:
 * Usage
 
 1. Clone =import-bitwarden-to-keepass= repository by running:
-   #+begin_src shell
-   git clone https://github.com/andreystepanov/import-bitwarden-to-keepass
-   #+end_src
+
+#+begin_src shell
+git clone https://github.com/andreystepanov/import-bitwarden-to-keepass
+#+end_src
+
 2. =cd= into =import-bitwarden-to-keepass= directory
-   #+begin_src shell
+
+#+begin_src shell
 cd ./import-bitwarden-to-keepass
-   #+end_src
+#+end_src
+
 3. To execute script use one of the methods described below.
 
 ** Docker (recommended)
